@@ -1,10 +1,10 @@
-#Assignment 0: Socket Programming
+# Assignment 0: Socket Programming
 
 **Due Monday February 8 at 11:59 pm EST**
 
 Socket programming is the standard way to write programs that communicate over a network. While originally developed for Unix computers programmed in C, the socket abstraction is general and not tied to any specific operating system or programming language. This allows programmers to use socket to write correct network programs in many contexts. This assignment will give you experience with basic socket programming. **Using C**, you will write one pair of TCP client and server program for sending and receiving text messages over the Internet. The client and server programs should meet the following specifications. 
 
-##Server Specifications
+## Server Specifications
 
 * Each server program should listen on a socket, wait for a client to connect, receive a message from the client, print the message to stdout, and then wait for the next client indefinitely.
 
@@ -17,7 +17,7 @@ Socket programming is the standard way to write programs that communicate over a
 
 * Each server should be able to handle very large messages in both alphanumeric and binary format.
 
-##Client Specifications
+## Client Specifications
 
 * Each client program should contact a server, read a message from stdin, send the message, and exit.
 * Each client should read and send the message exactly as it appears in stdin until reaching an EOF (end-of-file).
@@ -38,4 +38,31 @@ We have provided scaffolding code in the assignment1/ directory. The files `clie
 
 **Note: DO NOT change the file names, as they will be used for automated testing.**
 
+## Testing
 
+You should test your implementations by attempting to send messages from your clients to your servers. The server can be run in the background (append a `&` to the command) or in a separate SSH window. You should use `127.0.0.1` as the server IP and a high server port number between 10000 and 60000. You can kill a background server with the command `fg` to bring it to the foreground then `ctrl-c`.
+
+Make sure that your client and server support the following:
+
+* Any size of alphanumeric messages
+
+* Any size of binary messages
+
+* Several messages sent sequentially from separate clients to one server
+
+* Several messages sent concurrently from separate clients to one server
+
+## Debugging
+Here are some debugging tips. If you are still having trouble, ask a question on Piazza or see an instructor during office hours.
+
+* There are defined buffer size and queue length constants in the scaffolding code. Use them. If they are not defined in a particular file, you don't need them. If you are not using one of them, either you have hard-coded a value, which is bad style, or you are very likely doing something wrong.
+
+* There are multiple ways to read and write from stdin/stdout in C. Any method is acceptable as long as it does not read an unbounded amount into memory at once and does not modify the message.
+
+* If you are using buffered I/O to write to stdout, make sure to call flush or the end of a long message may not write.
+
+* Remember to close the socket at the end of the client program.
+    
+* When testing, make sure you are using 127.0.0.1 as the server IP argument to the client and the same server port for both client and server programs.
+
+* If you are getting connection errors, try a different port between 10000 and 60000.
