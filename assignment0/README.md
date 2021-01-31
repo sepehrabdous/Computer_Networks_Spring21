@@ -11,7 +11,7 @@ Socket programming is the standard way to write programs that communicate over a
 * Each server should take one command-line argument: the port number to listen on for client connections.
 * Each server should accept and process client communications in an infinite loop, allowing multiple clients to send messages to the same server. The server should only exit in response to an external signal (e.g. SIGINT from pressing ctrl-c).
 
-* Each server should maintain a short (10) client queue and handle multiple client connection attempts sequentially. **In real applications, a TCP server would fork a new process to handle each client connection concurrently, but that is not necessary for this assignment.**
+* Each server should maintain a short (10) client queue and handle multiple client connection attempts sequentially. **In real applications, a TCP server would fork a new process to handle each client connection concurrently, but that is NOT necessary for this assignment.**
 
 * Each server should gracefully handle error values potentially returned by socket programming library functions. Errors related to handling client connections should not cause the server to exit after handling the error; all others should.
 
