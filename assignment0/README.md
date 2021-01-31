@@ -57,7 +57,7 @@ Here are some debugging tips. If you are still having trouble, ask a question on
 
 * There are defined buffer size and queue length constants in the scaffolding code. Use them. If they are not defined in a particular file, you don't need them. If you are not using one of them, either you have hard-coded a value, which is bad style, or you are very likely doing something wrong.
 
-* There are multiple ways to read and write from stdin/stdout in C. Any method is acceptable as long as it does not read an unbounded amount into memory at once and does not modify the message.
+* There are multiple ways to read and write from stdin/stdout in C. If you'r code seems correct but you are failing the tests, make sure the problems isn't caused by how you read and write. We suggest to use `printf`. Also, make sure to flush the stdout by calling `fflush(stdout)`.
 
 * If you are using buffered I/O to write to stdout, make sure to call flush or the end of a long message may not write.
 
@@ -66,6 +66,8 @@ Here are some debugging tips. If you are still having trouble, ask a question on
 * When testing, make sure you are using 127.0.0.1 as the server IP argument to the client and the same server port for both client and server programs.
 
 * If you are getting connection errors, try a different port between 10000 and 60000.
+
+* If your using WSL (Windows Subsystem for Linux) to test your code, note that there are some differences in how systemcalls work in WSL and Linux OS.
 
 ## Submission
 
