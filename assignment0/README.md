@@ -34,7 +34,7 @@ Socket programming is the standard way to write programs that communicate over a
 
 The classic "Beej's Guide to Network Programming" is located here: https://beej.us/guide/bgnet/html/.  The [system call section](https://beej.us/guide/bgnet/html/#system-calls-or-bust) and [client/server example section](https://beej.us/guide/bgnet/html/#client-server-background) will be most relevant. The man pages are also useful for looking up individual functions (e.g. `man socket`).
 
-We have provided scaffolding code in the assignment0/ directory. The files `client.c` and `server.c` contain the scaffolding code. You will need to add socket programming and I/O code. You should read and understand this code before starting to program. For error handling, you can call `perror` for socket programming functions that set the global variable `errno` (Beej's Guide will tell you which do). For those that don't, simply print a message to standard error. The server should be run as `./server [port] > [outputfile]`. The client should be run as `./client [server IP] [server port] <[message file]`.
+We have provided scaffolding code in the assignment0/ directory. The files `client.c` and `server.c` contain the scaffolding code. You will need to add socket programming and I/O code. You should read and understand this code before starting to program. For error handling, you can call `perror` for socket programming functions that set the global variable `errno` (Beej's Guide will tell you which do). For those that don't, simply print a message to standard error. Use GCC to compile your code, for example: `gcc server.c -o server`. The server should be run as `./server [port] > [outputfile]`. The client should be run as `./client [server IP] [server port] <[message file]`.
 
 **Note: DO NOT change the file names, as they will be used for automated testing.**
 
@@ -66,3 +66,7 @@ Here are some debugging tips. If you are still having trouble, ask a question on
 * When testing, make sure you are using 127.0.0.1 as the server IP argument to the client and the same server port for both client and server programs.
 
 * If you are getting connection errors, try a different port between 10000 and 60000.
+
+## Submission
+
+Please submit your server.c and client.c files to Gradescope by February 8, 2021 at 5pm EST. You may include a README if you feel that there is anything that you need to explain to the graders, but this is not required. Please do not submit any additional files or executables.
