@@ -2,6 +2,8 @@
 
 **Due Monday February 8 at 5 pm EST**
 
+**Please make sure to thoroughly read this before getting to the implementation.**
+
 Socket programming is the standard way to write programs that communicate over a network. While originally developed for Unix computers programmed in C, the socket abstraction is general and not tied to any specific operating system or programming language. This allows programmers to use socket to write correct network programs in many contexts. This assignment will give you experience with basic socket programming. **Using C**, you will write one pair of TCP client and server program for sending and receiving text messages over the Internet. The client and server programs should meet the following specifications. 
 
 ## Server Specifications
@@ -54,6 +56,8 @@ Make sure that your client and server support the following:
 
 ## Debugging
 Here are some debugging tips. If you are still having trouble, ask a question on Piazza or see an instructor during office hours.
+
+* Different OSes might slightly change in the way they implement the systemcalls. As the Gradescope uses Ubuntu, make sure your code also works and covers all the requirements on Ubuntu. For this purpose, you can use [virtualbox](https://www.virtualbox.org/) to setup a virtual machine.
 
 * There are defined buffer size and queue length constants in the scaffolding code. Use them. If they are not defined in a particular file, you don't need them. If you are not using one of them, either you have hard-coded a value, which is bad style, or you are very likely doing something wrong.
 
