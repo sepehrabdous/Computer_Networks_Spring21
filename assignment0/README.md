@@ -57,7 +57,7 @@ Make sure that your client and server support the following:
 ## Debugging
 Here are some debugging tips. If you are still having trouble, ask a question on Piazza or see an instructor during office hours.
 
-* Different OSes might slightly change in the way they implement the systemcalls. As the Gradescope uses Ubuntu, make sure your code also works and covers all the requirements on Ubuntu. For this purpose, you can use [virtualbox](https://www.virtualbox.org/) to setup a virtual machine. https://brb.nci.nih.gov/seqtools/installUbuntu.html provides a useful guide on how to setup virtual machines using virtualbox.
+* Different OSes might slightly change in the way they implement the systemcalls. As Gradescope uses Ubuntu 18.04, make sure your code also works and covers all the requirements on Ubuntu. For this purpose, you can use [virtualbox](https://www.virtualbox.org/) to setup a virtual machine. https://brb.nci.nih.gov/seqtools/installUbuntu.html provides a useful guide on how to setup virtual machines using virtualbox.
 
 * There are defined buffer size and queue length constants in the scaffolding code. Use them. If they are not defined in a particular file, you don't need them. If you are not using one of them, either you have hard-coded a value, which is bad style, or you are very likely doing something wrong.
 
