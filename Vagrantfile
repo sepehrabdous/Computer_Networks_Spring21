@@ -12,11 +12,10 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   ## Configure hostname and port forwarding
-  config.vm.hostname = "mininet"
+  config.vm.hostname = "cos461"
   config.ssh.forward_x11 = true
-  config.ssh.insert_key = false
   config.vm.network "forwarded_port", guest: 8888, host: 8888
-  # Assignment 7
+  # Assignment 6
   config.vm.network "forwarded_port", guest: 12000, host: 12000
 
   vagrant_root = File.dirname(__FILE__)
@@ -29,6 +28,7 @@ Vagrant.configure(2) do |config|
 
   ## Provisioning
   config.vm.provision "shell", inline: <<-SHELL
+     # Assignment 1
      sudo apt-get update
      sudo apt-get -y upgrade
      sudo apt-get install -y emacs
@@ -41,9 +41,6 @@ Vagrant.configure(2) do |config|
      sudo pip install jupyter
      sudo apt-get install -y gccgo-go
      sudo pip install -U tzupdate
-     sudo pip install scapy
-     sudo apt-get install -y python-tk
-     sudo pip install networkx
      echo "export PYTHONPATH=${PYTHONPATH}:/vagrant/course-bin" >> /home/vagrant/.profile
 
      # Set correct permissions for bash scripts
@@ -53,6 +50,23 @@ Vagrant.configure(2) do |config|
      sudo apt-get install -y dos2unix
      printf "Using dos2unix to convert files to Unix format if necessary..."
      find /vagrant -name "*" -type f | xargs dos2unix -q
+
+     # Previous Assignment 2 (2019 and before)
+     #sudo apt-get install -y python-tk
+
+     # Assignment 2
+     sudo pip install nbconvert
+     sudo apt-get install -y mininet
+     sudo apt-get install -y python-numpy
+     sudo apt-get install -y python-matplotlib
+
+     # Assignment 3
+     sudo apt-get install -y whois
+     sudo pip install ipaddress
+
+     # Assignment 5
+     sudo apt-get install -y apache2-utils
+     echo "export GOPATH=/vagrant/assignment5" >> /home/vagrant/.profile
 
      # Start in /vagrant instead of /home/vagrant
      if ! grep -Fxq "cd /vagrant" /home/vagrant/.bashrc
@@ -64,6 +78,8 @@ Vagrant.configure(2) do |config|
   ## Provisioning to do on each "vagrant up"
   config.vm.provision "shell", run: "always", inline: <<-SHELL
     sudo tzupdate 2> /dev/null
+    # Assignment 2
+    sudo modprobe tcp_probe port=5001 full=1
   SHELL
 
   ## CPU & RAM
