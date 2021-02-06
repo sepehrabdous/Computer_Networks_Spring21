@@ -12,7 +12,7 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
 
   ## Configure hostname and port forwarding
-  config.vm.hostname = "cos461"
+  config.vm.hostname = "networks"
   config.ssh.forward_x11 = true
   config.vm.network "forwarded_port", guest: 8888, host: 8888
   # Assignment 6
