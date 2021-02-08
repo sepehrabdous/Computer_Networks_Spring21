@@ -71,9 +71,9 @@ From the `Computer_Networks_Spring21` directory you just entered, run the comman
 
 **Note 1**: The following commands will allow you to stop the VM at any point (such as when you are done working on an assignment for the day):
 
-* `vagrant suspend` will save the state of the VM and stop it.
-* `vagrant halt` will gracefully shutdown the VM operating system and power down the VM.
-* `vagrant destroy` will remove all traces of the VM from your system. If you have important files saved on the VM (like your assignment solutions) **DO NOT** use this command.
+* `vagrant suspend` will save the state of the VM and stop it. Always suspend when you are done with the machine.
+* `vagrant halt` will gracefully shutdown the VM operating system and power down the VM. Run this to completely stop the machine.
+* `vagrant destroy` will remove all traces of the VM from your system. If you have files exclusively saved to your VM, save those to your actual machine before executing this command. 
 
 Additionally, the command `vagrant status` will allow you to check the status of your machine in case you are unsure (e.g. running, powered off, saved...).
 You must be in some subdirectory of the directory containing the Vagrantfile to use any of the commands above, otherwise Vagrant will not know which VM you are referring to.
@@ -87,6 +87,14 @@ Run `vagrant ssh` from your terminal. This is the command you will use every tim
 Vagrant is especially useful because of this shared directory structure.  You don't need to copy files to and from the VM. Any file or directory in the `Computer_Networks_Spring21` directory where the `Vagrantfile` is located is automatically shared between your computer and the virtual machine. This means you can use your IDE of choice from outside the VM to write your code (but will still have to build and run within the VM).
 
 The command `logout` will stop the SSH connection at any point.
+
+### Common Errors
+
+Here are some fixes to known errors and problems with Vagrant.
+
+#### Error 1: Aftering powering down Vagrant for the first time, `vagrant up` gets stuck on trying to connect to the machine.
+
+This repeated attempt to connect may take anywhere from 1 to 10 minutes. There are a couple of ways to immeditely rectify this, but the easiet method that always works is to use `vagrant destroy` to tear down the virtual machine. Your files will remain on your computer so long as you are saving them to your computer and not exclusively to the vagrant machine. Afterwards, provision the machine the same way in step 6, using `vagrant up`. Make sure to only use `vagrant suspend` as this seems to keep the machine from stalling on starting it up between sessions. 
 
 ### Extra Note for Windows users
 
