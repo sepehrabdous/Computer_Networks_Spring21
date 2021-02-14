@@ -1,6 +1,5 @@
 # **Assignment 1: HTTP Proxy**
 
-- [How to run testing](#how-to-run-testing)
 - [**Assignment 1: HTTP Proxy**](#assignment-1-http-proxy)
   - [**Overview**](#overview)
   - [**Introduction: The Hypertext Transfer Protocol**](#introduction-the-hypertext-transfer-protocol)
