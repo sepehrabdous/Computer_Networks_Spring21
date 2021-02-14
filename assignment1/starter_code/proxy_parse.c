@@ -231,7 +231,7 @@ int ParsedHeader_parse(struct ParsedRequest * pr, char * line)
      char * index2;
 
      index1 = index(line, ':');
-     printf("%s\n", line);
+     // printf("%s\n", line);
      if(index1 == NULL)
      {
 	  debug("No colon found\n");
