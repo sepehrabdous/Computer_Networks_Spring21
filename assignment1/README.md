@@ -1,7 +1,3 @@
-# How to run testing
-cd into solutions/ and run `make`
-Now cd back into the root directory and run `python proxy_tester.py solutions/proxy`
-
 # **Assignment 1: HTTP Proxy**
 
 - [How to run testing](#how-to-run-testing)
