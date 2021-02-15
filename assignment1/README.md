@@ -1,6 +1,6 @@
 # **Assignment 1: HTTP Proxy**
 
-## Due Date: February 22, 2021
+## Due Date: March 3rd, 2021 at 5 pm EST
 
 - [**Assignment 1: HTTP Proxy**](#assignment-1-http-proxy)
   - [**Overview**](#overview)
