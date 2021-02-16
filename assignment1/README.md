@@ -114,9 +114,9 @@ All other headers just need to be properly formatted:
 
 &lt;HEADER NAME&gt;: &lt;HEADER VALUE&gt;
 
-In this assignment, client requests to the proxy must be in their absolute URI form (see RFC 1945, Section 5.1.2) -- as your browser will send if properly configured to explicitly use a proxy (as opposed to a transparent on-path proxies that some ISPs deploy, unbeknownst to their users). An invalid request from the client should be answered with an appropriate error code, i.e. &quot;Bad Request&quot; (400) or &quot;Not Implemented&quot; (501) for valid HTTP methods other than GET. Similarly, if headers are not properly formatted for parsing, your client should also generate a type-400 message.
+In this assignment, client requests to the proxy must be in their absolute URI form (see RFC 1945, Section 5.1.2) -- as your browser will send if properly configured to explicitly use a proxy (as opposed to a transparent on-path proxies that some ISPs deploy, unbeknownst to their users). An invalid request from the client should be answered with an appropriate error code, i.e. &quot;Bad Request&quot; (400) or &quot;Not Implemented&quot; (501) for valid HTTP methods other than GET. Similarly, if headers are not properly formatted for parsing, your client should also generate a type-400 message. These error messages should follow the proper response format for status codes, example below.
 
-Note: For the purposes of this assignment you may just return the status line of the response message for errors i.e. "HTTP/1.0 400 Bad Request".
+Note: For the purposes of this assignment you may just return the status line of the response message for errors i.e. "HTTP/1.0 400 Bad Request\r\n\r\n".
 
 ### **Parsing Library**
 
