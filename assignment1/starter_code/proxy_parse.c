@@ -397,14 +397,6 @@ ParsedRequest_parse(struct ParsedRequest * parse, const char *buf,
 	  parse->buf = NULL;
 	  return -1;
      }
-     if (strcmp (parse->method, "GET")) {
-	  debug( "invalid request line, method not 'GET': %s\n", 
-		 parse->method);
-	  free(tmp_buf);
-	  free(parse->buf);
-      parse->buf = NULL;
-	  return -1;
-     }
 
      full_addr = strtok_r(NULL, " ", &saveptr);
 
