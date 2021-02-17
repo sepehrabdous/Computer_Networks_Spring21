@@ -98,7 +98,7 @@ Why use a proxy? There are a few possible reasons:
 
 Your task is to build a web proxy capable of accepting HTTP requests, forwarding requests to remote (origin) servers, and returning response data to a client. The proxy MUST handle **concurrent** requests by forking a process for each new client request using the fork() system call. You will only be responsible for implementing the GET method. All other request methods received by the proxy should elicit a &quot;Not Implemented&quot; (501) error (see [RFC 1945](http://www.w3.org/Protocols/rfc1945/rfc1945) section 9.5 - Server Error).
 
-This assignment must be completed in C. It should compile and run (using gcc) without errors or warnings from the FC 010 cluster, producing a binary called proxy that takes as its first argument a port to listen from. Do **not** use a hard-coded port number.
+This assignment must be completed in C. It should compile and run (using gcc) without errors or warnings and produce a binary called proxy that takes as its first argument a port to listen from. Do **not** use a hard-coded port number.
 
 You shouldn&#39;t assume that your server will be running on a particular IP address, or that clients will be coming from a pre-determined IP.
 
@@ -202,7 +202,7 @@ Note: This will only work for websites which do not use SSL as the proxy does no
 
 ## **Socket Programming**
 
-In order to build your proxy you will need to learn and become comfortable programming sockets. The Berkeley sockets library is the standard method of creating network systems on Unix. There are a number of functions that you will need to use for this assignment:
+In order to build your proxy you will need to learn and become comfortable programming sockets. The Berkeley sockets library is the standard method of creating network systems on Unix. There are a number of functions that you may need or find useful for this assignment:
 
 - Parsing addresses:
   - inet\_addr
