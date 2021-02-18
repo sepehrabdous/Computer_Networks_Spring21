@@ -106,7 +106,7 @@ You shouldn&#39;t assume that your server will be running on a particular IP add
 
 Please avoid including print statements in your final solution as this might cause issues with the autograder.
 
-Do not submit binary or object files to gradescope.
+Please submit your .c and .h files, along with your Makefile, to Gradescope. **PLEASE DO NOT include binary or object (.o) files, or any additional artifacts in your submission.**
 
 ### **Listening**
 
