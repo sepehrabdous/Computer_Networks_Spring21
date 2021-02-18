@@ -106,6 +106,8 @@ You shouldn&#39;t assume that your server will be running on a particular IP add
 
 Please avoid including print statements in your final solution as this might cause issues with the autograder.
 
+Do not submit binary or object files to gradescope.
+
 ### **Listening**
 
 When your proxy starts, the first thing that it will need to do is establish a socket connection that it can use to listen for incoming connections. Your proxy should listen on the port specified from the command line and wait for incoming client connections. Each new client request is accepted, and a new process is spawned using fork() to handle the request. There should be a reasonable limit on the number of processes that your proxy can create (e.g., 100). Once a client has connected, the proxy should read data from the client and then check for a properly-formatted HTTP request -- but don&#39;t worry, we have provided you with libraries that parse the HTTP request lines and headers. Specifically, you will use our libraries to ensure that the proxy receives a request that contains a valid request line:
