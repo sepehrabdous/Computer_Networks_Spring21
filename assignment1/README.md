@@ -2,6 +2,8 @@
 
 ## Due Date: March 3rd, 2021 at 5 pm EST
 
+## Recording of tutorial session can be found [here](https://livejohnshopkins-my.sharepoint.com/:v:/g/personal/jprokos1_jh_edu/EQjLcSILes1Kp8QeeVvNdBgBwTTy14wzrUQi2zQ48pGuFQ?e=egtl16).
+
 - [**Assignment 1: HTTP Proxy**](#assignment-1-http-proxy)
   - [**Overview**](#overview)
   - [**Introduction: The Hypertext Transfer Protocol**](#introduction-the-hypertext-transfer-protocol)
