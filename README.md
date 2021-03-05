@@ -1,101 +1,318 @@
-# Computer Networks
+# Assignment 2: Router
 
-Welcome to the Computer Networks course! Through the assignments of this course, you will gain hands-on experience with real-world network programming. You will write a program that allows your computer to communicate with another, be it across the room or across the world. You will program a router to deliver information to the right destination in a network with thousands of nodes. You will learn how decisions made by protocol designers and network administrators affect Internet performance. You will learn how to analyze data from the network to detect security threats and learn how to prevent them.
+### Due Date: March 19th, 5pm
+This assignment is longer than the previous assignments, please start early. Please adhere to the [Submission Instructions](#submission-instructions) below.
 
-The programming assignments are designed to be challenging but manageable in the time allotted. If you have questions, want to suggest clarifications, or are struggling with any of the assignments this semester, please come to office hours or ask questions on Piazza.
+<!-- [Tutorial Slides](https://docs.google.com/presentation/d/1sWdTBuXB9E4byU19RZi0ewsHbncTzHjGeDBNzkVyvLY/edit?usp=sharing) -->
 
-Unless stated otherwise, the assignments are not group assignments. **You are not allowed to copy or look at code from other students.** However, you are welcome to discuss the assignments with other students without sharing code.
+---
+## Introduction
+In this assignment you will be writing a simple router with a static routing table. Your router will receive raw Ethernet frames. It will process the packets just like a real router, then forward them to the correct outgoing interface. We’ll make sure you receive the Ethernet frames; your job is to create the forwarding logic so packets go to the correct interface.
 
-Good luck.
+Your router will route real packets from an emulated host (client) to two emulated application servers (http server 1 and 2) sitting behind your router. The application servers are each running an HTTP server. When you have finished the forwarding path of your router, you should be able to access these servers using regular client software. In addition, you should be able to ping and traceroute to and through a functioning Internet router.
 
-## Setting up Vagrant
+![simple-topo](img/topo.png)
 
-For programminmg assignments in this course, it is highly recommended that you use Vagrant to run your code as the environment here is the same as what we will be grading with. Follow this guide on how to setup the virtual machine, and if you have any questions or issues with this, feel free to ask on Piazza or ask at office hours.
+If the router is functioning correctly, all of the following operations should work:
+- Ping from the client to any of the router’s interfaces (192.168.2.1, 172.64.3.1, 10.0.1.1).
+- Ping from the client to any of the app servers (192.168.2.2, 172.64.3.10)
+- Traceroute from the client to any of the router’s interfaces
+- Traceroute from the client to any of the app servers
+- Downloading a file using HTTP from one of the app servers
 
-### Step 1: Install Vagrant
+Detailed requirements are outlined below.
 
-Vagrant is a tool for automatically configuring a VM using instructions given in a single "Vagrantfile."
+---
+## Getting Started
+This assignment runs on top of [Mininet](http://mininet.org), which allows you to emulate a topology on a single machine. It provides the needed isolation between the emulated nodes so that your router node can process and forward real Ethernet frames between the hosts like a real router.
 
-**macOS & Windows:** You need to install Vagrant using the correct download link for your computer [here](https://www.vagrantup.com/downloads.html).
+We have set up Mininet on a custom Vagrant VM for this assignment. This VM is different from the one provided in previous assignments, and **you should use this VM to test your code for the assignment**. This assignment assumes that you have already downloaded Vagrant and Virtual Box.
 
-**Windows only**: You will be asked to restart your computer at the end of the installation. Click Yes to do so right away, or restart manually later,
-but don't forget to do so or Vagrant will not work!
+### Setup
+```
+$ git clone https://github.com/sepehrabdous/Computer_Networks_Spring21.git
+$ git checkout --track remotes/origin/assignment2
+```
 
-**Linux:** First, make sure your package installer is up to date by running the command `sudo apt-get update`. To install Vagrant, you must have the "Universe" repository on your computer; run `sudo apt-add-repository universe` to add it. Finally, run `sudo apt-get install vagrant` to install vagrant.
+Next, ```cd``` into the repository that you just cloned and run the following:
+```
+$ vagrant up
+```
 
-### Step 2: Install VirtualBox
+This step may take a few minutes. Once this process completes, you can ssh into the VM:
+```
+$ vagrant ssh
+```
 
-VirtualBox is a VM provider (hypervisor).
+All of the repository's files will be located in:
+```
+$ cd /vagrant
+```
 
-**macOS & Windows:** You need to install VirtualBox using the correct download link for your computer [here](https://www.virtualbox.org/wiki/Downloads). The links are under the heading "VirtualBox 5.x.x platform packages."
+Please refer to the Vagrant instructions on the [master branch](https://github.com/sepehrabdous/Computer_Networks_Spring21) for more details about Vagrant commands.
 
-**Windows only:** Use all the default installation settings, but you can uncheck the "Start Oracle VirtualBox 5.x.x after installation" checkbox.
+### Configuration Files
+There are two configuration files for the router.
+- ```/vagrant/src/IP_CONFIG```: Lists out the IP addresses assigned to the emulated hosts.
+- ```/vagrant/src/router/rtable```(linked to ```/vagrant/src/rtable)```: The static routing table used for the simple router.
 
-**Linux:** Run the command `sudo apt-get install virtualbox`.
 
-**Note:** This will also install the VirtualBox application on your computer, but you should never need to run it, though it may be helpful (see Step 6).
+The default ```IP_CONFIG``` should look like this:
+![ip_config](img/ip_config.png)
 
-### Step 3: Install Git (and SSH-capable terminal on Windows)
 
-Git is a distributed version control system.
+The default ```rtable``` should look like this:
+![rtable](img/rtable.png)
 
-**macOS & Windows:** You need to install Git using the correct download link for your computer [here](https://git-scm.com/downloads).
+---
+## Running the Emulation
 
-**macOS only:** Once you have opened the .dmg installation file, you will see a Finder window including a .pkg file, which is the installer. Opening this normally may give you a prompt saying it can't be opened because it is from an unidentified developer. To override this protection, instead right-click on thet .pkg file and select "Open". This will show a prompt asking you if you are sure you want to open it. Select "Yes". This will take you to the (straightforward) installation.
+**IMPORTANT:** **Before writing any code, please test the setup and connectivity as outlined in this section.** Also note that you will have to open 3 separate terminals in the same VM (e.g. 3 separate SSH sessions) for the following setup.
 
-**Windows only:** You will be given many options to choose from during the installation; using all the defaults will be sufficient for this course (you can uncheck "View release notes" at the end). The installation includes an SSH-capable Bash terminal usually located at `C:\Program Files\Git\bin\bash.exe`. Another option for a SSH-capable terminal is Windows Powershell.
+Once you ssh into the VM, configure the environment:
+```
+$ cd /vagrant/src
+$ ./config.sh
+```
 
-**Linux:** `sudo apt-get install git`.
+You only have to do this in one terminal/ssh session, as it will configure the environment for the whole VM. Next, start the POX controller:
+```
+$ cd /vagrant/src
+$ ./run_pox.sh
+```
 
-### Step 4: Install X Server
+You should see output similar to the following:
+![pox_startup](img/pox_start.png)
 
-You will need an X Server to input commands to the virtual machine.
+Keep this terminal open! Next, open a **new terminal** and start the mininet console:
+```
+$ cd /vagrant/src
+$ ./run_mininet.sh
+```
 
-**macOS:** Install [XQuartz](https://www.xquartz.org/). You will need to log out and log back in to complete the installation (as mentioned by the prompt at the end).
+You should see output similar to the following:
 
-**Windows:** Install [Xming](https://sourceforge.net/projects/xming/files/Xming/6.9.0.31/Xming-6-9-0-31-setup.exe/download). Use default options and uncheck "Launch Xming" at the end.
+![mininet_startup](img/mininet_start.png)
 
-**Linux:** The X server is pre-installed!
+The ```mininet>``` prompt indicates that you are now in the mininet console. Keep this terminal open! In the POX terminal, you should see that the controller has connected:
 
-### Step 5: Clone course Git repository
+![pox_connect](img/pox_connect.png)
 
-Open your terminal (use the one mentioned in step 3 if using Windows) and `cd` to wherever you want to keep files for this course on your computer.  
 
-Run `https://github.com/sepehrabdous/Computer_Networks_Spring21.git` to download the course files from GitHub.
+Now, open yet another **new terminal** to continue with the next step. Now you will test the connectivity of the setup by running the sample solution binary file:
+```
+$ cd /vagrant/src
+$ ./sr_solution
+```
 
-`cd Computer_Networks_Spring21` to enter the course assignment directory.
+You should see output similar to the following:
+![sr_solution](img/sr_solution.png)
 
-### Step 6: Provision virtual machine using Vagrant
 
-From the `Computer_Networks_Spring21` directory you just entered, run the command  `vagrant up` to start the VM and  provision it according to the Vagrantfile. You will likely have to wait several minutes. You may see warnings/errors in red, such as "default: stdin: is not a tty", but you shouldn't have worry about them.
+In this setup, 192.168.2.2 is the IP for server1, and 172.64.3.10 is the IP for server2. You can find the IP addresses in your IP_CONFIG file.
 
-**Note 1**: The following commands will allow you to stop the VM at any point (such as when you are done working on an assignment for the day):
+Now, back in the ```mininet>``` console, to issue a command on the emulated host, type the host name followed by the command in the Mininet console.
 
-* `vagrant suspend` will save the state of the VM and stop it. Always suspend when you are done with the machine.
-* `vagrant halt` will gracefully shutdown the VM operating system and power down the VM. Run this to completely stop the machine.
-* `vagrant destroy` will remove all traces of the VM from your system. If you have files exclusively saved to your VM, save those to your actual machine before executing this command. 
+### Test Ping
+The following is an example command that issues 3 pings from the client to server1.
 
-Additionally, the command `vagrant status` will allow you to check the status of your machine in case you are unsure (e.g. running, powered off, saved...).
-You must be in some subdirectory of the directory containing the Vagrantfile to use any of the commands above, otherwise Vagrant will not know which VM you are referring to.
+```
+mininet> client ping -c 3 192.168.2.2
+```
+Example output:
+![ping](img/example_ping.png)
 
-**Note 2**: The VirtualBox application that was installed in Step 2 provides a visual interface as an alternative to these commands, where you can see the status of your VM and power it on/off or save its state. It is not recommended to use it, however, since it is not integrated with Vagrant, and typing commands should be no slower. It is also not an alternative to the initial `vagrant up` since this creates the VM.
+### Test Traceroute
+The following is an example traceroute to see the route betwen client and server1.
+```
+mininet> client traceroute -n 192.168.2.2
+```
+Example output:
+![traceroute](img/example_traceroute.png)
 
-### Step 7: Test SSH to VPN
+### Test Webserver
+The following is an example HTTP request issued by using wget to test the web server is working properly.
+```
+mininet> client wget http://192.168.2.2
+```
+Example output:
+![wget](img/example_wget.png)
 
-Run `vagrant ssh` from your terminal. This is the command you will use every time you want to access the VM. If it works, your terminal prompt will change to `vagrant@networks:~$`. All further commands will execute on the VM. You can then run `cd /vagrant` to get to the course directory that's shared between your regular OS and the VM.
+If you stop the ```./sr_solution```, you will find the ping/traceroute/wget commands will not work anymore. In this assignment, your goal is to replicate the functionality of ```sr_solution```. To help you get started, we provide some starter code described in the following sections.
 
-Vagrant is especially useful because of this shared directory structure.  You don't need to copy files to and from the VM. Any file or directory in the `Computer_Networks_Spring21` directory where the `Vagrantfile` is located is automatically shared between your computer and the virtual machine. This means you can use your IDE of choice from outside the VM to write your code (but will still have to build and run within the VM).
+**TIP:** To stop the router program, use ```Ctrl-C``` as you would with a normal C program. To stop Mininet and POX, run ```./kill_all.sh``` in a normal terminal in the VM.
 
-The command `logout` will stop the SSH connection at any point.
+---
+## Starter Code
 
-### Common Errors
+You should now have all the pieces needed to build and run the router. You can build and run the starter code as follows:
 
-Here are some fixes to known errors and problems with Vagrant.
+```
+$ cd /vagrant/src/router
+$ make
+$ ./sr
+```
 
-#### Error 1: Aftering powering down Vagrant for the first time, `vagrant up` gets stuck on trying to connect to the machine.
+Everytime you would like to test your router, you must run the Mininet console and Pox controller as described in the [Running the Emulation](#running-the-emulation) instructions above, and replacing the ```./sr_solution``` binary above with your ```./sr``` binary.
 
-This repeated attempt to connect may take anywhere from 1 to 10 minutes. There are a couple of ways to immeditely rectify this, but the easiet method that always works is to use `vagrant destroy` to tear down the virtual machine. Your files will remain on your computer so long as you are saving them to your computer and not exclusively to the vagrant machine. Afterwards, provision the machine the same way in step 6, using `vagrant up`. Make sure to only use `vagrant suspend` as this seems to keep the machine from stalling on starting it up between sessions. 
+**NOTE TO WINDOWS USERS**: If you are running Vagrant on a Windows machine, we have noticed that there are sometimes issues with symbolic linking. The ```rtable``` file in the ```router``` directory may throw an error upon starting up ```./sr```, e.g. **"Error loading routing table, cannot convert ../rtable to a valid IP"**. If this happens, simply manually copy the file ```/vagrant/src/rtable``` to ```/vagrant/src/router/rtable.``` In general, we use symbolic links for convenience (to keep identical files in multiple folders consistent) but they are not absolutely necessary.
 
-### Extra Note for Windows users
+---
+## Protocols
+There are two main parts to this assignment: IP forwarding, and handling address resolution (ARP). The helpful protocols and steps to familiarize yourself with are outlined below.
 
-Line endings are symbolized differently in DOS (Windows) and Unix (Linux/MacOS). In the former, they are represented by a carriage return and line feed (CRLF, or "\r\n"), and in the latter, just a line feed (LF, or "\n"). Given that you ran `git pull` from Windows, git detects your operating system and adds carriage returns to files when downloading. This can lead to parsing problems within the VM, which runs Ubuntu (Unix). Fortunately, this only seems to affect the shell scripts (\*.sh files) we wrote for testing. The `Vagrantfile` is set to automically convert all files back to Unix format, so **you shouldn't have to worry about this**. **However**, if you want to write/edit shell scripts to help yourself with testing, or if you encounter this problem with some other type of file, use the preinstalled program `dos2unix`. Run `dos2unix [file]` to convert it to Unix format (before editing/running in VM), and run `unix2dos [file]` to convert it to DOS format (before editing on Windows). A good hint that you need to do this when running from the VM is some error message involving `^M` (carriage return). A good hint you need to do this when editing on Windows is the lack of new lines. Remember, doing this should only be necessary if you want to edit shell scripts.
+### Ethernet
+Your router is given a raw Ethernet frame and your router must send raw Ethernet frames. The headers contain source and destination MAC addresses, and to forward a packet one hop, we must change the destination MAC address of the forwarded packet to the MAC address of the next hop’s incoming interface.
+
+### Internet Protocol (IP)
+Before operating on an IP packet, you should verify its checksum and make sure it meets the minimum length of an IP packet. You should understand how to find the longest prefix match of a destination IP address in the routing table. If you determine that a datagram should be forwarded, you should correctly decrement the TTL field of the header and recompute the checksum over the changed header before forwarding it to the next hop.
+
+#### IP Forwarding Logic
+Given a raw Ethernet frame, if the frame contains an IP packet that is not destined for one of our interfaces:
+
+- Sanity-check the packet: check that it meets minimum length and has the correct checksum.
+- Decrement the TTL by 1 and recompute the packet checksum over the modified header.
+  - If TTL is expired, send an ICMP time exceeded (type 11) message.
+- Find out which entry in the routing table has the longest prefix match with the destination IP address.
+- Check the ARP cache for the next-hop MAC address corresponding to the next-hop IP.
+  - If ARP entry is there, forward the IP packet.
+  - Otherwise, send an ARP request for the next-hop IP (if one hasn’t been sent within the last second), and add the packet to the queue of packets waiting on this ARP request.
+
+If an error occurs in any of the above steps, you will have to send an ICMP message back to the sender notifying them of an error.
+
+#### IP Packet Destinations
+An incoming IP packet may be destined for one of your router’s IP addresses, or it may be destined elsewhere. If it is sent to one of your router’s IP addresses, you should take the following actions:
+
+- If the packet is an ICMP echo request (type 8) and its checksum is valid, send an ICMP echo reply (type 0) to the sending host.
+- If the packet contains a TCP or UDP payload, send an ICMP port unreachable (type 3, code 1) to the sending host. Otherwise, ignore the packet.
+- Packets destined elsewhere should be forwarded using the forwarding logic above.
+
+### Internet Control Message Protocol (ICMP)
+ICMP is a simple protocol that can send control information to a host. In this assignment, your router will use ICMP to send messages back to the sending host. You will need to properly generate the following ICMP messages (including the ICMP header checksum) in response to the sending host under the following conditions:
+
+- **Echo reply (type 0)**
+
+  Sent in response to an echo request (ICMP type 8) to one of the router’s interfaces. This is only for echo requests to one of our interfaces (to any of the router’s known IPs). This is needed for ping to work. An echo request sent elsewhere (e.g. not to one of our interfaces) should be forwarded to the next hop address as usual.
+
+- **Destination net unreachable (type 3, code 0)**
+
+  Sent if there is a non-existent route to the destination IP (no matching entry in routing table when forwarding an IP packet).
+
+- **Destination host unreachable (type 3, code 1)**
+
+  Sent if five ARP requests were sent to the next-hop IP without a response.
+
+- **Port unreachable (type 3, code 3)**
+
+  Sent if an IP packet containing a UDP or TCP payload is sent to one of the router’s interfaces. This is needed for traceroute to work.
+
+- **Time exceeded (type 11, code 0)**
+
+  Sent if an IP packet is discarded during processing because the TTL field is 0. This is also needed for traceroute to work.
+
+The source address of an ICMP message can be the source address of any of the incoming interfaces, as specified in [RFC 792](https://tools.ietf.org/html/rfc792). As mentioned above, the only incoming ICMP messages destined towards the router’s IPs that you have to explicitly process are ICMP echo requests (type 8).
+
+<!-- You may want to create additional structs for ICMP messages for convenience, but make sure to use the packed attribute so that the compiler doesn’t try to align the fields in the struct to word boundaries. -->
+
+### Address Resolution Protocol (ARP)
+ARP is needed to determine the next-hop MAC address that corresponds to the next-hop IP address stored in the routing table. Without the ability to generate an ARP request and process ARP replies, your router would not be able to fill out the destination MAC address field of the raw Ethernet frame you are sending over the outgoing interface. Analogously, without the ability to process ARP requests and generate ARP replies, no other router could send your router Ethernet frames. Therefore, your router must generate and process ARP requests and replies.
+
+To lessen the number of ARP requests sent out, you are required to cache ARP replies. Cache entries should time out after 15 seconds to minimize staleness. The provided ARP cache class already times the entries out for you. When forwarding a packet to a next-hop IP address, the router should first check the ARP cache for the corresponding MAC address before sending an ARP request. In the case of a cache miss, an ARP request should be sent to a target IP address about once every second until a reply comes in. If the ARP request is sent five times with no reply, an ICMP destination host unreachable is sent back to the source IP as stated above. The provided ARP request queue will help you manage the request queue.
+
+In the case of an ARP request, you should only send an ARP reply if the target IP address is one of your router’s IP addresses. In the case of an ARP reply, you should only cache the entry if the target IP address is one of your router’s IP addresses.
+
+Note that ARP requests are sent to the broadcast MAC address (```ff-ff-ff-ff-ff-ff```). ARP replies are sent directly to the requester’s MAC address.
+
+---
+## Code Overview
+
+Your router receives a raw Ethernet frame and sends raw Ethernet frames when sending a reply to the sending host or forwarding the frame to the next hop. The basic functions to handle these functions are:
+
+```
+void sr_handlepacket(struct sr_instance* sr, uint8_t * packet, unsigned int len, char* interface)
+```
+This method, located in ```sr_router.c```, is called by the router each time a packet is received. The “packet” argument points to the packet buffer which contains the full packet including the ethernet header. The name of the receiving interface is passed into the method as well.
+
+```
+int sr_send_packet(struct sr_instance* sr, uint8_t* buf, unsigned int len, const char* iface)
+```
+
+This method, located in ```sr_vns_comm.c```, will send an arbitrary packet of length, len, to the network out of the interface specified by iface.
+
+You should not free the buffer given to you in sr_handlepacket (this is why the buffer is labeled as being “lent” to you in the comments). You are responsible for doing correct memory management on the buffers that sr_send_packet borrows from you (that is, sr_send_packet will not call free on the buffers that you pass it).
+
+```
+void sr_arpcache_sweepreqs(struct sr_instance *sr)
+```
+The assignment requires you to send an ARP request about once a second until a reply comes back or we have sent five requests. This function is defined in ```sr_arpcache.c``` and called every second, and you should add code that iterates through the ARP request queue and re-sends any outstanding ARP requests that haven’t been sent in the past second. If an ARP request has been sent 5 times with no response, a destination host unreachable should go back to all the sender of packets that were waiting on a reply to this ARP request.
+
+---
+## Data Structures
+
+### The Router (```sr_router.h```):
+The full context of the router is housed in the ```sr_instance``` struct in ```sr_router.h```. The sr_instance contains information about the topology the router is routing for as well as the routing table and the list of interfaces.
+
+You must implement the logic to process/handle packets in ```sr_router.c```.
+
+### Interfaces (```sr_if.c/h```):
+After connecting, the server will send the client the hardware information for that host. The starter code uses this to create a linked list of interfaces in the router instance at member if_list. Utility methods for handling the interface list can be found at ```sr_if.c/h```.
+
+### The Routing Table (```sr_rt.c/h```):
+The routing table in the starter code is read from a file ```rtable``` and stored in a linked list of routing entries in the current routing instance (```sr->routing_table```).
+
+### The ARP Cache and ARP Request Queue (```sr_arpcache.c/h```):
+You will need to add ARP requests and packets waiting on responses to those ARP requests to the ARP request queue. When an ARP reply arrives, you will have to remove the ARP request from the queue and place the reply into the ARP cache, forwarding any packets that were waiting on that ARP request. Pseudocode for these operations is provided in ```sr_arpcache.h```, but I recommend implementing this logic in ```sr_router.c``` where you handle incoming ARP packets.
+
+The base code already creates a thread that times out ARP cache entries 15 seconds after they are added for you. You must fill out the ```sr_arpcache_sweepreqs()``` function in ```sr_arpcache.c```. This function gets called every second to iterate through the ARP request queue and re-send ARP requests if necessary. Psuedocode for this process is provided in ```sr_arpcache.h```.
+
+
+### Protocol Headers (```sr_protocol.h```)
+Within the router framework you will be dealing directly with raw Ethernet packets. The starter code itself provides some data structures in ```sr_protocols.h``` which you may use to manipulate headers easily. There are a number of resources which describe the protocol headers in detail. Network Sorcery’s RFC Sourcebook provides a condensed reference to the packet formats you’ll be dealing with:
+
+- [Ethernet](http://www.networksorcery.com/enp/protocol/IEEE8023.htm)
+- [IP](http://www.networksorcery.com/enp/protocol/ip.htm)
+- [ICMP](http://www.networksorcery.com/enp/protocol/icmp.htm)
+- [ARP](http://www.networksorcery.com/enp/protocol/arp.htm)
+
+For the actual specifications, there are also the RFC’s for ARP [RFC826](https://www.ietf.org/rfc/rfc826.txt), IP [RFC791](https://www.ietf.org/rfc/rfc791.txt), and ICMP [RFC792](https://www.ietf.org/rfc/rfc792.txt).
+
+---
+## Debugging Functions
+There are some basic debugging functions in ```sr_utils.h```, ```sr_utils.c```. Feel free to use them to print out network header information from your packets. Below are some functions you may find useful:
+
+- ```print_hdrs(uint8_t *buf, uint32_t length)``` Prints out all possible headers starting from the Ethernet header in the packet
+- ```print_addr_ip_int(uint32_t ip)```Prints out a formatted IP address from a uint32_t. Make sure you are passing the IP address in the correct byte ordering.
+
+---
+## Reference Binary
+To help you debug your topologies and understand the required behavior we provide a reference binary and you can find it at ```/vagrant/src/sr_solution``` in your directory. Instructions for how to use it are in the [Running the Emulation](#running-the-emulation) section above.
+
+---
+## Requirements Summary
+- The router must successfully route packets between the Internet and the application servers.
+- The router must correctly handle ARP requests and replies.
+- The router must respond correctly to ICMP echo requests (ping commands).
+- The router must correctly handle traceroutes through it (where it is not the end host) and to it (where it is the end host).
+- The router must handle TCP/UDP packets sent to one of its interfaces. In this case, the router should respond with an ICMP port unreachable (type 3, code 3).
+- The router must maintain an ARP cache whose entries are invalidated after a timeout period (15 seconds).
+- The router must queue all packets waiting for outstanding ARP replies. If a host does not respond to 5 ARP requests, the queued packet is dropped and an ICMP host unreachable message (type 3, code 1) is sent back to the source of the queued packet.
+- The router must enforce guarantees on timeouts - that is, if an ARP request is not responded to within a fixed period of time, the ICMP host unreachable message (echo 3, code 1) is generated even if no more packets arrive at the router. (Note: You can guarantee this by implementing the ```sr_arpcache_sweepreqs()``` function in ```sr_arpcache.c``` correctly.)
+- The router must not needlessly drop packets (for example, when waiting for an ARP reply)
+
+---
+## Testing Your Code
+Due to the complexities of the Mininet setup, we will not be able to autograde this assignment using Gradescope. Instead, we will download your code and test it ourselves. To test your own code, you should perform the ping/traceroute/wget commands on your ```./sr``` binary as detailed above in [Running the Emulation](#running-the-emulation). These are the "public" tests and will be worth a significant portion of the grade.
+
+In addition to your router being able to perform these commands, make sure that you are sending the appropriate ICMP messages under different types of "error" cases, as detailed in the [ICMP](#internet-control-message-protocol-icmp) section and the [Requirements Summary](#requirements-summary).
+
+---
+## Submission Instructions
+You will be required to submit a ```README.md``` along with your code for this assignment. In your README, please describe your design decisions. We have provided a ```README.md``` skeleton in the ```/src/router``` folder. The ```README``` will be worth 10% of the assignment grade.
+
+Zip up the files in your ```/vagrant/src/router``` folder by running the following command:
+
+```
+$ make clean
+$ zip -9r router-JHED.zip Makefile README.md rtable auth_key *.h *.c
+```
+Replace JHED with your JHED ID. Submit the zip file to Gradescope.
