@@ -15,7 +15,7 @@ mininet/util/install.sh -nfvp
 (cd pox && git checkout $POX_VERSION)
 cd ~
 
-curl https://bootstrap.pypa.io/2.7/get-pip.py --output get-pip.py
+curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
 sudo python get-pip.py
 rm -f get-pip.py
 
