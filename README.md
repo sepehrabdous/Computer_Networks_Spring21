@@ -184,7 +184,7 @@ If an error occurs in any of the above steps, you will have to send an ICMP mess
 An incoming IP packet may be destined for one of your router’s IP addresses, or it may be destined elsewhere. If it is sent to one of your router’s IP addresses, you should take the following actions:
 
 - If the packet is an ICMP echo request (type 8) and its checksum is valid, send an ICMP echo reply (type 0) to the sending host.
-- If the packet contains a TCP or UDP payload, send an ICMP port unreachable (type 3, code 1) to the sending host. Otherwise, ignore the packet.
+- If the packet contains a TCP or UDP payload, send an ICMP port unreachable (type 3, code 3) to the sending host. Otherwise, ignore the packet.
 - Packets destined elsewhere should be forwarded using the forwarding logic above.
 
 ### Internet Control Message Protocol (ICMP)
