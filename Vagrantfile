@@ -33,6 +33,9 @@ Vagrant.configure(2) do |config|
      sudo apt-get -y upgrade
      sudo apt-get install -y emacs
      sudo apt-get install -y python-dev
+     sudo apt-get install -y gcc
+     sudo apt-get install -y make
+     sudo apt-get install -y g++
      curl https://bootstrap.pypa.io/get-pip.py > get-pip.py
      sudo python get-pip.py
      rm -f get-pip.py
@@ -41,7 +44,7 @@ Vagrant.configure(2) do |config|
      sudo pip install jupyter
      sudo apt-get install -y gccgo-go
      sudo pip install -U tzupdate
-     echo "export PYTHONPATH=${PYTHONPATH}:/vagrant/course-bin" >> /home/vagrant/.profile
+    #  echo "export PYTHONPATH=${PYTHONPATH}:/vagrant/course-bin" >> /home/vagrant/.profile
 
      # Set correct permissions for bash scripts
      find /vagrant -name "*.sh" | xargs chmod -v 744
