@@ -40,7 +40,7 @@ Create a CDF where the x-axis is the number of bytes in a flow, and the y-axis i
 
 Get the number of flows for each source IP address, only considering its 16-bit prefix (for example: the IP addresses 255.255.0.1 and 255.255.0.2 are counted as there being two 255.255 addresses). What are the top ten IP address prefixes, and what percentage of all the flows recorded are they involved in? (No need to report the percentage per source IP address, just report the aggreagate percentage for top ten source IP addresses.)
 
-Now, aggregate the number of bytes by source IP addresses the same way. What are the top ten IP address prefixes in this case, and what percentage of bytes sent across all flows are they responsible for?(No need to report the percentage per source IP address, just report the aggreagate percentage for top ten source IP addresses.)
+Now, aggregate the number of bytes by source IP addresses the same way. What are the top ten IP address prefixes in this case, and what percentage of bytes sent across all flows are they responsible for (no need to report the percentage per source IP address, just report the aggreagate percentage for top ten source IP addresses)?
 
 ### Question 1.3 (5 points: 2 points for describing port number correctly, 3 points for correct percentage)
 
