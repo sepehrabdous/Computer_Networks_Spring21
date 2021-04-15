@@ -6,13 +6,13 @@ In this assignment, you will analyze publicly-available measurement data to unde
 
 ## Submission Instructions
 
-For the assignment, submit (via [Gradescope](https://www.gradescope.com/)) the files containing (i) the answers to the questions below (in PDF format) and (ii) the code for scripts you wrote to analyze the data. Name the pdf [JHED]_analysis.pdf and zip your code up as [JHED]_code.
+For the assignment, submit (via [Gradescope](https://www.gradescope.com/)) (i) the answers to the questions below as well as a "readme" section, in PDF format and (ii) the code for scripts you wrote to analyze the data. Name the pdf [JHED]_analysis.pdf and zip your code up as [JHED]_code.
 
-The PDF should have all the answers to the questions asked, written in full and clear sentences. 
+All answers to the questions asked should be written in full and clear sentences.
 
 ## Readme (10 points)
 
-There should be a section briefly describing your code and instructions on how to run it (a README section basically). You should also mention what platform you used to run your code on.
+There should be a section in the PDF, briefly describing your code and instructions on how to run it (a README basically). You should also mention what platform you used to run your code on. Place this either at the beginning or the end of your PDF.
 
 ## Code (10 points)
 
@@ -34,7 +34,7 @@ you have a flow with one 40-byte packet that arrived at the time 04:48.9. The pa
 
 Researchers often summarize a large collection of measurement data using distribution functions. Imagine you have a list of Web pages with different sizes, in terms of number of bytes. The cumulative distribution function (CDF) of page sizes would have a y-axis of "the fraction of Web pages that are less than or equal to x bytes", and an x-axis of the number of bytes. The graph would start at y=0, since no Web pages have less than or equal to 0 bytes, and reach y=1 when x reaches the size of the largest page.
 
-Create a CDF where the x-axis is the number of bytes in a flow, and the y-axis is the percentage of flows with that many bytes or less. Make this same plot but for flows transported by UDP and TCP. What trends or patterns can you determine from this graph? Make sure to use logarithmic scales for x-axis and linear scale for y-axis for figures to be clear.
+Create a CDF where the x-axis is the number of bytes in a flow, and the y-axis is the percentage of flows with that many bytes or less. Make this same plot but for flows transported by UDP and TCP. Provide two observations about trends or patterns you can determine from this graph. Make sure to use logarithmic scales for x-axis and linear scale for y-axis for figures to be clear.
 
 ### Question 1.2 (10 points: 2.5 points for each top ten list, 2.5 points for the percentages)
 
