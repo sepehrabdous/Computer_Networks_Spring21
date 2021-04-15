@@ -1,6 +1,6 @@
 # Assignment 4: Internet Measurement
 
-## Due Date: April 26, 2021 at 5 pm EST
+## Due Date: Thursday, April 29, 2021 at 7 pm EST
 
 In this assignment, you will analyze publicly-available measurement data to understand important properties of the Internet.
 
