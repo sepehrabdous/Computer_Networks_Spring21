@@ -67,12 +67,12 @@ The important fields for the snapshot are: `TIME` which is when it was recorded,
 
 |TIME|NEXT_HOP|FROM|ASPATH|PREFIX|ORIGIN|
 |---|---|---|---|---|---|
-|03/28/21 04:00:00|1|85.114.0.217|194.153.0.253 AS5413|286 3257 13335|1.0.0.0/24|IGP|
+|03/28/21 04:00:00|85.114.0.217|194.153.0.253 AS5413|286 3257 13335|1.0.0.0/24|IGP|
 
 this entry was recorded on March 28th, 2021 at 4AM. It comes from the router at IP address 194.153.0.25, which is from the AS 5413. The path of ASES is 286, 3257 and 13335. This path is taken by packets destined for addresses 1.0.0.0/24.
 
 The important fields for the snapshot include the ones mentioned for the BGP snapshots, but also includes
-`COMMAND` which is the type of message sent from the AS followed by the IP addresses affected. For example, looking at the first two lines of `./data/bgp_update.csv`:
+`COMMAND` which is the type of message sent from the AS followed by the IP addresses affected. As well `ASPATH` now refers to the path related by the message's type. For example, looking at the first two lines of `./data/bgp_update.csv`:
 
 |TIME|FROM|ASPATH|NEXT_HOP|COMMAND|ORIGIN|
 |---|---|---|---|---|---|
