@@ -12,7 +12,7 @@ The PDF should have all the answers to the questions asked, written in full and 
 
 ## Readme (10 points)
 
-There should be a section briefly describing your code and instructions on how to run it (a README section basically).
+There should be a section briefly describing your code and instructions on how to run it (a README section basically). You should also mention what platform you used to run your code on.
 
 ## Code (10 points)
 
