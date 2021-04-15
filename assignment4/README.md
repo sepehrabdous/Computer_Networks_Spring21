@@ -48,7 +48,7 @@ The src/dst port number of a connection corresponds to the src/dst port number f
 
 Pick a port number less than 1024, provide the type of service it's associated with, and report the percentage of flows it appears in as the src port and the percentage of flows it appears in as the dst port.
 
-### Question 1.4 (10 points: 2 points for each percentage, 4 points for discussion)
+### Question 1.4 (10 points: 2 points for each of the 3 percentages, 4 points for discussion)
 
 Observe that this router is responsible for the address block 128.112.0.0/16. What percentage of bytes is sent from this router, and what percentage is sent to this router? What percentage of bytes have a destination and source IP address that are both in this address block? What do these metrics tell you about traffic happening with this router?
 
