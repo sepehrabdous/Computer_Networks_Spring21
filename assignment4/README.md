@@ -56,7 +56,7 @@ Observe that this router is responsible for the address block 128.112.0.0/16. Wh
 
 The data you worked with comes from a university's campus, from 6:05 AM to 6:10 AM. What changes would expect in your answers for the previous questions if this data was collected from a router that was serving devices at a busy public cafe during the afternoon? Provide reasons as to why.
 
-## BGP Measurement
+## BGP Measurement (45 points)
 
 BGP routing changes disrupt the delivery of data traffic and consume bandwidth and CPU resources on the routers. In this part of the assignment, you will analyze BGP update messages logged by [RouteViews](http://www.routeviews.org/) to analyze BGP (in)stability and convergence behavior. RouteViews has BGP sessions with a variety of different ISPs, and logs the update messages sent on each of these sessions. The data for the homework has already been parsed and provided for you, but to see more sessions, go to the RouteViews [archive](ftp://archive.routeviews.org/) and pick one of the directories starting with "route-views" (e.g., "route-views.eqix"), and find update data from a particular month, e.g., [this directory](ftp://archive.routeviews.org/route-views.eqix/bgpdata/2010.08/UPDATES/) has files logging the BGP updates for each 15-minute interval, and [this directory](ftp://archive.routeviews.org/route-views.eqix/bgpdata/2010.08/RIBS/) has the periodic routing-table (Routing Information Base) dumps. These files are in a compressed, binary format (e.g., gzip or bzip2). You will need [tools](http://www.routeviews.org/tools.html) to "uncompress" and parse the data. In particular, the bgpdump tool is probably the best choice for parsing the update messages.
 
