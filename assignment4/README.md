@@ -14,9 +14,9 @@ All answers to the questions asked should be written in full and clear sentences
 
 There should be a section in the PDF, briefly describing your code and instructions on how to run it (a README basically). You should also mention what platform you used to run your code on. Place this either at the beginning or the end of your PDF.
 
-## Code (10 points)
+## Code
 
-You can use any language you prefer for this assignment. It is worth 10 points, since you answers will be graded in the pdf, but make sure you describe how to run and you submit your code. Not having code will result in a harsh penalty on your homework.
+You can use any language you prefer for this assignment. Your code should be able to be run and should match the output found in your answers. Not matching these conditions gives you no credit for the assignment.
 
 ## Router Measurement (55 points)
 
