@@ -94,4 +94,4 @@ Using `bgp_updates.csv`, how many BGP updates are done per minute, on average? M
 
 ### Question 2.4 (10 points: 5 points for graph, 5 points for discussion)
 
-Plot a CDF where the x-axis is the top percentage of ASes by the number of updates and the y-axis is the percentage of updates that percentage is responsible for. Include all ASes from `bgp_route.csv`, not just the `bgp_update.csv`. Make sure to use logarithmic scales for graph axes if the distribution is not clear. What can you infer about the ASes tracked here, specifically about their stability?
+Plot a CDF where the x-axis is the top percentage of ASes by the number of updates and the y-axis is the percentage of updates messages that are from that top percentage. Include all ASes from `bgp_route.csv`, not just the `bgp_update.csv`. Make sure to use logarithmic scales for graph axes if the distribution is not clear. What can you infer about the ASes tracked here, specifically about their stability?
